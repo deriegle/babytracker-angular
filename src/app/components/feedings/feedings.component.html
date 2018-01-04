@@ -1,53 +1,89 @@
 <div class="row">
   <div class="col s12">
     <ul class="collapsible" data-collapsible="expandable">
-      <li>
+      <ng-container *ngFor="let month of months">
+      <li >
         <div class="collapsible-header">
-          <span><i class="material-icons">date_range</i> &nbsp;<strong>December 2017</strong></span>
+          <span><i class="material-icons">date_range</i> &nbsp;<strong>{{month | amDateFormat: 'MMMM YYYY'}}</strong></span>
         </div>
         <div class="collapsible-body">
           <ul class="collapsible" data-collapsible="expandable">  
             <li *ngFor="let feeding of feedings | orderBy: 'date'">
-              <div class="collapsible-header valign-wrapper">
-                <span><i class="material-icons">today</i> &nbsp;<strong>{{feeding.date | amDateFormat:'LL'}}</strong></span>
-              </div>
-              <div class="collapsible-body">
-                <table class="striped bordered centered"> 
-                  <thead>
-                    <tr>
-                      <th><i class="material-icons">access_time</i> &nbsp;Time</th>
-                      <th><i class="material-icons">local_dining</i>&nbsp;Feeding</th>
-                      <th><i class="material-icons">archive</i> &nbsp;Diapers</th>
-                    </tr>
-                  </thead>
-                  <tbody >
-                    <tr *ngFor="let feed of feeding.feedings | orderBy: 'time'">
-                      <td>{{feed.time | amDateFormat: 'hh:mm A'}}</td>
-                      <td>{{feed.bmAmount}} BM | {{feed.fAmount}} F</td>
-                      <td>
-                        <i *ngIf="feed.pee;else blankItem" class="material-icons peed-icon medium">fiber_manual_record</i>
-                        <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
-                        <i *ngIf="feed.poop;else blankItem" class="material-icons pooped-icon medium">fiber_manual_record</i>
-                        <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <ng-container *ngIf="(month | amDateFormat: 'MMM YYYY') == (feeding.date | amDateFormat: 'MMM YYYY')">
+                <div class="collapsible-header valign-wrapper">
+                  <span><i class="material-icons">today</i> &nbsp;<strong>{{feeding.date | amDateFormat:'MMMM Do YYYY'}}</strong></span>
+                </div>
+                <div class="collapsible-body">
+                  <table class="striped bordered centered"> 
+                    <thead>
+                      <tr>
+                        <th><i class="material-icons">access_time</i> &nbsp;Time</th>
+                        <th><i class="material-icons">local_dining</i>&nbsp;Feeding</th>
+                        <th><i class="material-icons">archive</i> &nbsp;Diapers</th>
+                      </tr>
+                    </thead>
+                    <tbody >
+                      <tr *ngFor="let feed of feeding.feedings | orderBy: 'time'">
+                        <td>{{feed.time | amDateFormat: 'hh:mm A'}}</td>
+                        <td>{{feed.bmAmount}} BM | {{feed.fAmount}} F</td>
+                        <td>
+                          <i *ngIf="feed.pee;else blankItem" class="material-icons peed-icon medium">fiber_manual_record</i>
+                          <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
+                          <i *ngIf="feed.poop;else blankItem" class="material-icons pooped-icon medium">fiber_manual_record</i>
+                          <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-container>
             </li>
           </ul>
         </div>
       </li>
-      <li>
-          <div class="collapsible-header">
-            <span><i class="material-icons">date_range</i> &nbsp;<strong>January 2018</strong></span>
-          </div>
-          <div class="collapsible-body">
-            <span>Hello</span>
-          </div>
-      </li>
+    </ng-container>
     </ul>
   </div>
 </div>
 
-
+<ul class="collapsible" data-collapsible="accordion">
+  <li>
+    <div class="collapsible-header">
+      <span><i class="material-icons">date_range</i> &nbsp;<strong>Month</strong></span>
+    </div>
+    <div class="collapsible-body">
+      <ul class="collapsible" data-collapsible="accordion">  
+        <li *ngFor="let feeding of feedings | orderBy: 'date'">
+          <ng-template [ngIf]="true">
+            <div class="collapsible-header valign-wrapper">
+              <span><i class="material-icons">today</i> &nbsp;<strong>{{feeding.date | amDateFormat:'MMMM Do YYYY'}}</strong></span>
+            </div>
+            <div class="collapsible-body">
+              <table class="striped bordered centered"> 
+                <thead>
+                  <tr>
+                    <th><i class="material-icons">access_time</i> &nbsp;Time</th>
+                    <th><i class="material-icons">local_dining</i>&nbsp;Feeding</th>
+                    <th><i class="material-icons">archive</i> &nbsp;Diapers</th>
+                  </tr>
+                </thead>
+                <tbody >
+                  <tr *ngFor="let feed of feeding.feedings | orderBy: 'time'">
+                    <td>{{feed.time | amDateFormat: 'hh:mm A'}}</td>
+                    <td>{{feed.bmAmount}} BM | {{feed.fAmount}} F</td>
+                    <td>
+                      <i *ngIf="feed.pee;else blankItem" class="material-icons peed-icon medium">fiber_manual_record</i>
+                      <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
+                      <i *ngIf="feed.poop;else blankItem" class="material-icons pooped-icon medium">fiber_manual_record</i>
+                      <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>
