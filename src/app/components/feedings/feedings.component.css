@@ -1,0 +1,19 @@
+th i {
+    vertical-align: bottom;
+}
+
+.collapsible-header i {
+    vertical-align: bottom;
+}
+
+.blank-icon {
+    color: gray;
+}
+
+.peed-icon {
+    color: yellow;
+}
+
+.pooped-icon {
+    color: rgb(148, 71, 0);
+}
