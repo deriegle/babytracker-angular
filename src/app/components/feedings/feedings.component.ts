@@ -22,6 +22,9 @@ export class FeedingsComponent implements OnInit {
     });
   }
   
+  deleteFeeding(e, feeding){
+    this.feedingService.deleteFeeding(feeding);
+  }
 
   getMonths(): any {
     var monthStrings = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

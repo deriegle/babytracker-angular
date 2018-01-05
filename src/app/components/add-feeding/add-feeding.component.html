@@ -1,0 +1,61 @@
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">Add Feeding</span>
+    <form (ngSubmit)="onSubmit()" class="col s6">
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input type="text" placeholder="Parent's Name" [(ngModel)]="currentFeeding.parent" name="parent">
+          <label>Parent's Name</label>
+        </div>   
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+          <label for="date">Date</label>
+          <input type="text" id="date" name="date" class="datepicker" placeholder="{{todaysDate}}" [(ngModel)]="feeding.date">
+        </div>
+        <div class="input-field col s6">
+          <label for="time">Time</label>
+          <input type="text" name="time" id="time" class="timepicker" placeholder="{{todaysTime}}" [(ngModel)]="currentFeeding.time">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+          <p class="range-field">
+            <label for="bmAmount">Breastmilk Amount</label><br><br>
+            <input type="range" id="bmAmount" name="bmAmount" min="0" max="150" [(ngModel)]="currentFeeding.bmAmount"  />
+          </p>
+          
+        </div>     
+        <div class="input-field col s6">
+          <p class="range-field">
+            <label for="fAmount">Formula Amount</label><br><br>
+            <input type="range" id="fAmount" name="fAmount" min="0" max="150" [(ngModel)]="currentFeeding.fAmount"  />
+          </p>
+        </div>     
+      </div>
+
+      <div class="row">
+        <div class="input-field col s6">
+          <p>
+            <input type="checkbox" class="filled-in" name="pee" id="pee" [(ngModel)]="currentFeeding.pee" />
+            <label for="pee">Yes?</label>
+          </p>
+        </div>
+        <div class="input-field col s6">
+          <input type="checkbox" class="filled-in" id="poop" name="poop" [(ngModel)]="currentFeeding.poop" />
+          <label for="poop">Pooped?</label>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col s6 offset-s5">
+            <input type="submit" value="Submit" class="btn">
+        </div>
+      </div>
+      
+    </form>
+  </div>
+</div>

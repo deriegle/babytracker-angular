@@ -9,7 +9,7 @@
           <ul materialize="collapsible" class="collapsible" data-collapsible="expandable">  
             <li *ngFor="let feeding of feedings | orderBy: 'date'">
               <ng-container *ngIf="(month | amDateFormat: 'MMM YYYY') == (feeding.date | amDateFormat: 'MMM YYYY')">
-                <div class="collapsible-header valign-wrapper">
+                <div class="collapsible-header valign-wrapper" (dblclick)="deleteFeeding($event, feeding)">
                   <span><i class="material-icons">today</i> &nbsp;<strong>{{feeding.date | amDateFormat:'MMMM Do YYYY'}}</strong></span>
                 </div>
                 <div class="collapsible-body">
