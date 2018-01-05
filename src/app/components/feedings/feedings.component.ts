@@ -17,8 +17,11 @@ export class FeedingsComponent implements OnInit {
       //console.log(feedings);
       this.feedings = feedings;
       this.getMonths()
+      // Sort Months by ISO Format after getting them
+      this.months = this.sortMonthsDesc(this.months);
     });
   }
+  
 
   getMonths(): any {
     var monthStrings = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -33,6 +36,20 @@ export class FeedingsComponent implements OnInit {
       }
       console.log(this.months);
     });
+  }
+
+  sortMonthsDesc(arr){
+    arr = arr.sort(function(a, b){
+      return (a < b) ? 1 : ((a > b) ? -1 : 0);
+    });
+    return arr;
+  }
+
+  sortMonthsAsc(arr){
+    arr = arr.sort(function(a, b){
+      return (a < b) ? -1 : ((a > b) ? 1 : 0);
+    });
+    return arr;
   }
 
 }
