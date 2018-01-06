@@ -1,31 +1,39 @@
 <div class="row">
   <div class="col s12">
+    <!-- Collapse for Months & Year -->
     <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
       <li *ngFor="let month of months">
         <div class="collapsible-header">
+          <!-- Loop through each month and display -->
           <span><i class="material-icons">date_range</i> &nbsp;<strong>{{month | amDateFormat: 'MMMM YYYY'}}</strong></span>
         </div>
         <div class="collapsible-body">
+          <!-- Collapse for specific days -->
           <ul materialize="collapsible" class="collapsible" data-collapsible="expandable">  
             <li *ngFor="let feeding of feedings | orderBy: 'date'">
+              <!-- Only add the specific feeding if it is corresponding with the current looping month -->
               <ng-container *ngIf="(month | amDateFormat: 'MMM YYYY') == (feeding.date | amDateFormat: 'MMM YYYY')">
                 <div class="collapsible-header valign-wrapper" (dblclick)="deleteFeeding($event, feeding)">
-                  <span><i class="material-icons">today</i> &nbsp;<strong>{{feeding.date | amDateFormat:'MMMM Do YYYY'}}</strong></span>
+                  <i class="material-icons">today</i> &nbsp;<strong>{{feeding.date | amDateFormat:'MMMM Do YYYY'}}</strong>
+                  <a href="#" class="edit-feeding" >&nbsp;&nbsp;<i class="material-icons" (click)="editFeeding($event, feeding)">edit</i></a>
                 </div>
                 <div class="collapsible-body">
                   <table class="striped bordered centered"> 
                     <thead>
                       <tr>
+                        <!-- Table Headers -->
                         <th><i class="material-icons">access_time</i> &nbsp;Time</th>
                         <th><i class="material-icons">local_dining</i>&nbsp;Feeding</th>
                         <th><i class="material-icons">archive</i> &nbsp;Diapers</th>
                       </tr>
                     </thead>
                     <tbody >
+                      <!-- Display feeding times & amounts -->
                       <tr *ngFor="let feed of feeding.feedings | orderBy: 'time'">
                         <td>{{feed.time | amDateFormat: 'hh:mm A'}}</td>
                         <td>{{feed.bmAmount}} BM | {{feed.fAmount}} F</td>
                         <td>
+                          <!-- Check boolean status for pee & poop and display correctly colored icons to match -->
                           <i *ngIf="feed.pee;else blankItem" class="material-icons peed-icon medium">fiber_manual_record</i>
                           <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
                           <i *ngIf="feed.poop;else blankItem" class="material-icons pooped-icon medium">fiber_manual_record</i>
@@ -36,10 +44,16 @@
                   </table>
                 </div>
               </ng-container>
+              <!-- Edit Feeding -->
+              <div *ngIf="editState && feedingToEdit.id == feeding.id">
+                <form (ngSubmit)="updateFeeding(feeding)">
+                  <!-- Add Feeding Edit Information -->
+                </form>
+              </div>
             </li>
-          </ul>
+          </ul><!-- end specific day collapse -->
         </div>
       </li>
-    </ul>
+    </ul><!-- end months collapse -->
   </div>
 </div>
