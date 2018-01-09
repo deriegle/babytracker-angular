@@ -1,10 +1,11 @@
 <app-navbar></app-navbar>
-<div class="container">
-  <app-add-feeding></app-add-feeding>
-  <!--<p class='flow-text'>Our app was created from the ground up to help parents overcome the challenges of being a new parent.
-    We make it easy to track feedings, pees, and bowel movements. We also make it easy to track mom's breast feeding amounts to make sure
-    her supply is staying up! We will keep daily totals as well so you can look back &amp; see how you've been doing.
-    We'll send you emails at the end of the month to show up how you and baby are doing with tips to keep you on track!
-  </p>-->
-  <app-feedings></app-feedings>
+<div *ngIf="afAuth.authState | async as user; else loginPage">
+    <app-add-feeding></app-add-feeding>
+    <app-feedings></app-feedings>
 </div>
+<ng-template #loginPage>
+    <div class="container login-container center-align">
+        <h4>Please login to view feedings</h4>
+        <a class="login-button waves-effect waves-light btn-large" (click)="login()">Login</a>
+    </div>
+</ng-template>

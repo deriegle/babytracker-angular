@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { MomentModule } from 'angular2-moment';
 import { NgPipesModule } from 'ngx-pipes';
@@ -15,17 +16,19 @@ import { FeedingService } from './services/feeding.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AddFeedingComponent } from './components/add-feeding/add-feeding.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     FeedingsComponent,
     NavbarComponent,
-    AddFeedingComponent
+    AddFeedingComponent,
   ],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireAuthModule,
     MomentModule,
     MaterializeModule,
     FormsModule,
@@ -34,4 +37,5 @@ import { AddFeedingComponent } from './components/add-feeding/add-feeding.compon
   providers: [FeedingService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

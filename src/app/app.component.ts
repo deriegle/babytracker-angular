@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase';
+
 
 @Component({
   selector: 'app-root',
@@ -7,6 +10,10 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'Baby Tracker';
 
+  constructor(private afAuth: AngularFireAuth) { }
+
+  login() {
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  }
 }
