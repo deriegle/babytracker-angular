@@ -5,3 +5,8 @@
 .login-button {
     margin-top: 20px;
 }
+
+.feedings-container {
+    padding-top: 20px;
+    min-height: 800px;
+}

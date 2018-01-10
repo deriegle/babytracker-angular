@@ -8,6 +8,7 @@ $(document).ready(function() {
         close: 'Ok',
         closeOnSelect: false // Close upon selecting a date,
     });
+    
     $('.timepicker').pickatime({
         default: 'now', // Set default time: 'now', '1:30AM', '16:30'
         fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
@@ -16,7 +17,22 @@ $(document).ready(function() {
         cleartext: 'Clear', // text for clear-button
         canceltext: 'Cancel', // Text for cancel-button
         autoclose: false, // automatic close timepicker
-        ampmclickable: true, // make AM PM clickable
-        aftershow: function(){} //Function for after opening timepicker
+        ampmclickable: true // make AM PM clickable
+    });
+    
+    $('.feeding-picker').pickatime({
+        default: 'now',
+        fromnow: 0,
+        twelvehour: true,
+        donetext: 'OK',
+        cleartext: 'Clear',
+        canceltext: 'Cancel',
+        autoclose: true,
+        ampmclickable: true
+    });
+
+    $('.modal').modal({
+        dismissible: true,
+        opacity: 5
     });
 });

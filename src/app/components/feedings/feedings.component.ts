@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FeedingService } from '../../services/feeding.service';
 import { Feeding } from '../../models/feeding';
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-feedings',
@@ -12,23 +15,67 @@ export class FeedingsComponent implements OnInit {
   months: string[] = [];
   editState: boolean = false;
   feedingToEdit: Feeding;
+  currentUser;
+  moment
+  todaysTime = moment().format('LT');
 
-  constructor(private feedingService: FeedingService) { }
+  currentFeeding = {
+    time: this.todaysTime,
+    bmAmount: 0,
+    fAmount: 0,
+    parent: this.afAuth.auth.currentUser.displayName,
+    pee: true,
+    poop: true
+  }
+
+  constructor(private feedingService: FeedingService, private afAuth: AngularFireAuth) {
+    this.currentUser = this.afAuth.auth.currentUser;
+   }
 
   ngOnInit() {
     /* Subscribe to feedings to get any updates/deletes, etc */
-    this.feedingService.getFeedings().subscribe(feedings => {
+    this.feedingService.getFeedings(this.currentUser.uid).subscribe(feedings => {
 
       this.feedings = feedings;
       /* Get all the months for the feedings in the database & sort them from most recent first */
       this.getMonths()
       this.months = this.sortMonthsDesc(this.months);
     });
+
+    
   }
   
   deleteFeeding(e, feeding){
     this.feedingService.deleteFeeding(feeding);
   }
+
+  updateButton(e, feeding) {
+    this.editState = true;
+    this.feedingToEdit = feeding;
+  }
+
+  updateFeeding(e, feeding) {
+    this.feedingToEdit = feeding;
+
+    var feedingDate = moment(this.feedingToEdit.date).format('LL');
+    // Change currentFeeding time to ISO format & Add to feedings
+    this.currentFeeding.time = moment(feedingDate + " " + this.currentFeeding.time).format();
+    this.feedingToEdit.feedings.push(this.currentFeeding); 
+    // Update the feeding
+    this.feedingService.updateFeeding(this.feedingToEdit);
+    // Resets
+    this.currentFeeding = {
+      time: moment().format('LT'),
+      bmAmount: 0,
+      fAmount: 0,
+      parent: this.afAuth.auth.currentUser.displayName,
+      pee: true,
+      poop: true
+    };
+    this.editState = false;
+    this.feedingToEdit = null;
+  }
+
 
   editFeeding(e, feeding){
     this.editState = true;
@@ -48,7 +95,6 @@ export class FeedingsComponent implements OnInit {
       if(this.months.indexOf(string) === -1) {
         this.months.push(string);
       }
-      console.log(this.months);
     });
   }
 

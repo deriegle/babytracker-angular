@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +11,6 @@ import * as firebase from 'firebase/app';
       <div class="container">
         <a href="#" class="brand-logo">BabyTracker</a>
         <ul id="nav-mobile" class="right">
-          <li><a href="#">Feedings</a></li>
           <li>Logged In as: <strong>{{user.displayName}}</strong></li>
           <li><a (click)="logout()">Logout</a></li>
         </ul>
@@ -32,6 +32,9 @@ import * as firebase from 'firebase/app';
 })
 export class NavbarComponent implements OnInit {
 
+  user = {} as User;
+  provider = new firebase.auth.GoogleAuthProvider();
+
   constructor(private afAuth: AngularFireAuth) { }
 
   ngOnInit() {
@@ -42,6 +45,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
+    firebase.auth().signOut();
     this.afAuth.auth.signOut();
   }
 

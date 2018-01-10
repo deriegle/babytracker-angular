@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div *ngIf="afAuth.authState | async as user; else loginPage">
+<div *ngIf="afAuth.authState | async as user; else loginPage" class="feedings-container container">
     <app-add-feeding></app-add-feeding>
     <app-feedings></app-feedings>
 </div>

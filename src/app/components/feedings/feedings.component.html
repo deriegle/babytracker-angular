@@ -1,5 +1,4 @@
-<div class="row">
-  <div class="col s12">
+
     <!-- Collapse for Months & Year -->
     <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
       <li *ngFor="let month of months">
@@ -10,7 +9,7 @@
         <div class="collapsible-body">
           <!-- Collapse for specific days -->
           <ul materialize="collapsible" class="collapsible" data-collapsible="expandable">  
-            <li *ngFor="let feeding of feedings | orderBy: 'date'">
+            <li *ngFor="let feeding of feedings | orderBy: '-date'">
               <!-- Only add the specific feeding if it is corresponding with the current looping month -->
               <ng-container *ngIf="(month | amDateFormat: 'MMM YYYY') == (feeding.date | amDateFormat: 'MMM YYYY')">
                 <div class="collapsible-header valign-wrapper" (dblclick)="deleteFeeding($event, feeding)">
@@ -29,42 +28,65 @@
                     </div>
                 </div>
                 <div class="collapsible-body">
-                  <table class="striped bordered centered"> 
-                    <thead>
-                      <tr>
-                        <!-- Table Headers -->
-                        <th><i class="material-icons">access_time</i> &nbsp;Time</th>
-                        <th><i class="material-icons">local_dining</i>&nbsp;Feeding</th>
-                        <th><i class="material-icons">archive</i> &nbsp;Diapers</th>
-                      </tr>
-                    </thead>
-                    <tbody >
-                      <!-- Display feeding times & amounts -->
-                      <tr *ngFor="let feed of feeding.feedings | orderBy: 'time'">
-                        <td>{{feed.time | amDateFormat: 'hh:mm A'}}</td>
-                        <td>{{feed.bmAmount}} BM | {{feed.fAmount}} F</td>
-                        <td>
-                          <!-- Check boolean status for pee & poop and display correctly colored icons to match -->
-                          <i *ngIf="feed.pee;else blankItem" class="material-icons peed-icon medium">fiber_manual_record</i>
-                          <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
-                          <i *ngIf="feed.poop;else blankItem" class="material-icons pooped-icon medium">fiber_manual_record</i>
-                          <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <form materialize (ngSubmit)="updateFeeding(feeding)">
+                    <table class="striped bordered centered"> 
+                      <thead>
+                        <tr>
+                          <!-- Table Headers -->
+                          <th><i class="material-icons">access_time</i> &nbsp;Time</th>
+                          <th><i class="material-icons">local_dining</i>&nbsp;Feeding</th>
+                          <th><i class="material-icons">archive</i> &nbsp;Diapers</th>
+                        </tr>
+                      </thead>
+                      <tbody >
+                        <!-- Display feeding times & amounts -->
+                        <tr *ngFor="let feed of feeding.feedings | orderBy: 'time'">
+                          <td>{{feed.time | amDateFormat: 'hh:mm A'}}</td>
+                          <td>{{feed.bmAmount}} <strong>BM</strong> | {{feed.fAmount}} <strong>F</strong></td>
+                          <td>
+                            <!-- Check boolean status for pee & poop and display correctly colored icons to match -->
+                            <i *ngIf="feed.pee;else blankItem" class="material-icons peed-icon medium">fiber_manual_record</i>
+                            <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
+                            <i *ngIf="feed.poop;else blankItem" class="material-icons pooped-icon medium">fiber_manual_record</i>
+                            <ng-template #blankItem><i class="material-icons blank-icon medium">fiber_manual_record</i></ng-template>
+                          </td>
+                        </tr>
+                        <!-- Add Feeding Form at end of table -->
+                        <ng-container *ngIf="editState && feedingToEdit.id == feeding.id">
+                          <tr *ngIf="editState && feedingToEdit.id == feeding.id">
+                            <td>
+                                <input type="text" name="time" id="time" class="feeding-picker" materialize="pickatime" placeholder="{{todaysTime}}" [(ngModel)]="currentFeeding.time">
+                            </td>
+                            <td>
+                              <input type="number" name="bmAmount" id="bmAmount" min="0" max="150" placeholder="0" [(ngModel)]="currentFeeding.bmAmount"> <strong>BM</strong>
+                              &nbsp;
+                              <input type="number" min="0" max="150" name="fAmount" id="fAmount" placeholder="0" [(ngModel)]="currentFeeding.fAmount"> <strong>F</strong>
+                            </td>
+                            <td class="input-field">
+                              <input type="checkbox" class="active" name="pee" id="pee" [(ngModel)]="currentFeeding.pee">
+                              <label for="pee">Peed?</label>
+                              &nbsp;
+                              <input type="checkbox" class="active" id="poop" name="poop" [(ngModel)]="currentFeeding.poop">
+                              <label for="poop">Pooped?</label>
+                            </td>
+                        </tr>
+                        <a class="waves-effect waves-light blue btn" (click)="updateFeeding(event, feeding)">Add This Feeding</a>
+                      </ng-container>
+                        
+                      </tbody>
+                    </table>
+                  </form>
+                  <div class="row">
+                    <div class="col table-buttons">
+                      <a class="waves-effect waves-light orange btn" (click)="updateButton(event, feeding)"><i class="material-icons medium">edit</i> Update Feeding</a>
+
+                    </div>
+                  </div>
                 </div>
               </ng-container>
-              <!-- Edit Feeding -->
-              <div *ngIf="editState && feedingToEdit.id == feeding.id">
-                <form (ngSubmit)="updateFeeding(feeding)">
-                  <!-- Add Feeding Edit Information -->
-                </form>
-              </div>
             </li>
           </ul><!-- end specific day collapse -->
         </div>
       </li>
     </ul><!-- end months collapse -->
-  </div>
-</div>
+

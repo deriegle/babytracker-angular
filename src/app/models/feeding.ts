@@ -1,6 +1,7 @@
 export interface Feeding {
     date?: string;
     id?: string;
+    uid?: string;
     feedings?: [
       {
         bmAmount?: number;
