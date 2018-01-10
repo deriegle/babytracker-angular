@@ -12,7 +12,8 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Todo
 1. Remove Month from Baby Tracker homepage after deleting all feeding in that month
 2. When adding feeding, add it to the current Firestore document for that month if available
-3. Get checkboxes working on Add-Feeding component
+3. ~~Get checkboxes working on Add-Feeding component~~
+3. Get checkboxes working on Update Feeding component
 4. Add easier delete buttons (currently you dblclick on time)
-5. Update functionality
-6. Authentication/Login & Register pages
+5. ~~Update functionality~~
+6. ~~Authentication/Login & Register pages~~
